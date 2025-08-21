@@ -9,21 +9,6 @@ purple="\033[1;35m"
 blue="\033[1;34m"
 no_color="\033[0m"
 
-# Install xCode cli tools
-if [[ "$(uname)" == "Darwin" ]]; then
-    echo -e "${yellow}macOS detected...${no_color}"
-
-    if xcode-select -p &>/dev/null; then
-        echo -e "${blue}Xcode already installed${no_color}"
-    else
-        echo -e "${green}Installing command line tools...${no_color}"
-        xcode-select --install
-    fi
-else
-    echo -e "${red}You are not on MacOS, you cannot install these dotfiles automatically.${no_color}"
-    exit 1
-fi
-
 # Homebrew
 ## Install
 if [ "$(which brew)" != "/usr/local/bin/brew" ] && [ "$(which brew)" != "/opt/homebrew/bin/brew" ]; then
