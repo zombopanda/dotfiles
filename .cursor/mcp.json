@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "Figma": {
+      "url": "http://127.0.0.1:3845/mcp"
+    },
+    "MongoDB": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mongodb-mcp-server",
+        "--connectionString",
+        "mongodb://root:dJ8XSKtpT73kjc3a1S0dWBohJIKuD7BklWKtVSmbjDyNcqguskRK0sDJdAvx3WM7@49.12.199.230:1488/?directConnection=true"
+      ]
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"]
+    }
+  }
+}
