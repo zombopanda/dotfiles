@@ -29,6 +29,7 @@ brew yazi
 brew yt-dlp
 brew zoxide
 brew mackup
+brew mcfly
 
 tap homebrew/cask
 cask alt-tab
