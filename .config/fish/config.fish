@@ -19,6 +19,8 @@ alias vim nvim
 alias v nvim
 alias cat ccat
 zoxide init --cmd cd fish | source
+mcfly init fish | source
+alias vimfish "vim ~/.config/fish/config.fish && source ~/.config/fish/config.fish && echo '✨fish config reloaded ✨'"
 
 # for brew-file
 if test -f (brew --prefix)/etc/brew-wrap.fish
