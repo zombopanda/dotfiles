@@ -28,6 +28,7 @@ brew yadm
 brew yazi
 brew yt-dlp
 brew zoxide
+brew mackup
 
 tap homebrew/cask
 cask alt-tab
