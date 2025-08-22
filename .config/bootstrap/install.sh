@@ -15,15 +15,12 @@ if [ "$(which brew)" != "/usr/local/bin/brew" ] && [ "$(which brew)" != "/opt/ho
     echo -e "${green}Installing Brew...${no_color}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
-
+eval "$(/opt/homebrew/bin/brew shellenv)"
 brew analytics off
 
 brew install git yadm rcmdnk/file/brew-file
 yadm clone https://github.com/zombopanda/dotfiles.git
-
-if command -v mas >/dev/null 2>&1; then
-  mas account >/dev/null 2>&1 || echo "⚠️ Login to App Store before running brew-file MAS installs."
-fi
+export HOMEBREW_BREWFILE_CURSOR=1
 brew file install
 
 # load asdf
@@ -32,21 +29,26 @@ brew file install
 SCRIPT_DIR=$(dirname "$0")
 
 # Set macOS defaults
-"${SCRIPT_DIR}/macos-defaults.sh"
+. "${SCRIPT_DIR}/macos-defaults.sh"
 
 # Set the order of apps in the Dock
-"${SCRIPT_DIR}/dock.sh"
+. "${SCRIPT_DIR}/dock.sh"
 
 ## Install asdf
 asdf plugin add bun https://github.com/cometkim/asdf-bun.git
 asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
 asdf plugin add python https://github.com/asdf-community/asdf-python.git
+# for ruby
+brew install libyaml
 asdf install
 
-TMPDIR="$(mktemp -d)"; trap 'rm -rf "$TMPDIR"' EXIT
+echo "Please open SetApp and log in..."
+read -n 1 -s
+echo "Thanks, moving on."
 
 # Create a tmp directory
+TMPDIR="$(mktemp -d)"; trap 'rm -rf "$TMPDIR"' EXIT
 mkdir -p "$TMPDIR"
 cd "$TMPDIR"
 
