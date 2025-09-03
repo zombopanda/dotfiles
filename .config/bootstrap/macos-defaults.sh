@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 ## MacOS system settings
 echo -e "${yellow}Writing MacOS system settings...${no_color}"

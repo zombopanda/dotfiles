@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -euo pipefail
 # ------------------------------------------
 # Set exact Dock apps in specified order
 # ------------------------------------------
@@ -31,6 +31,7 @@ defaults write com.apple.dock persistent-apps -array
 # add_app_to_dock "/System/Library/CoreServices/Finder.app"  # Remove this line
 # TODO: For some reason Safari shows up as some weird symlink in the Dock - adding manually for now
 # add_app_to_dock "/Applications/Safari.app"
+add_app_to_dock "/System/Applications/Launchpad.app"
 add_app_to_dock "/Applications/Cursor.app"
 add_app_to_dock "/Applications/Telegram.app"
 add_app_to_dock "/Applications/Ghostty.app"
