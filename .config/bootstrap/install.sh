@@ -20,7 +20,6 @@ brew analytics off
 
 brew install git yadm rcmdnk/file/brew-file
 brew install --cask cursor
-ln -s /Applications/Cursor.app/Contents/Resources/app/bin/code /opt/homebrew/bin/cursor
 yadm clone https://github.com/zombopanda/dotfiles.git
 export HOMEBREW_BREWFILE_CURSOR=1
 brew file install
