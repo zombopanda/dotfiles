@@ -21,12 +21,8 @@ alias cat ccat
 zoxide init --cmd cd fish | source
 mcfly init fish | source
 alias vimfish "vim ~/.config/fish/config.fish && source ~/.config/fish/config.fish && echo '✨fish config reloaded ✨'"
-
-# for brew-file
-if test -f (brew --prefix)/etc/brew-wrap.fish
-  source (brew --prefix)/etc/brew-wrap.fish
-end
-
+alias ip "curl -s ipinfo.io | jq -r '\"\(.ip) — \(.city), \(.country) — \(.org)\"'"
+alias y yazi
 # tools to see who's using the port
 function port
     if test (count $argv) -eq 0

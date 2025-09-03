@@ -19,6 +19,8 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew analytics off
 
 brew install git yadm rcmdnk/file/brew-file
+brew install --cask cursor
+ln -s /Applications/Cursor.app/Contents/Resources/app/bin/code /opt/homebrew/bin/cursor
 yadm clone https://github.com/zombopanda/dotfiles.git
 export HOMEBREW_BREWFILE_CURSOR=1
 brew file install
@@ -26,13 +28,18 @@ brew file install
 # load asdf
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
+echo 1
+
 SCRIPT_DIR=$(dirname "$0")
 
 # Set macOS defaults
-. "${SCRIPT_DIR}/macos-defaults.sh"
+# . "${SCRIPT_DIR}/macos-defaults.sh"
+echo 2
+
 
 # Set the order of apps in the Dock
-. "${SCRIPT_DIR}/dock.sh"
+# . "${SCRIPT_DIR}/dock.sh"
+echo 3
 
 ## Install asdf
 asdf plugin add bun https://github.com/cometkim/asdf-bun.git

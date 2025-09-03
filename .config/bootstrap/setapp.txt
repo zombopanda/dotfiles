@@ -1,10 +1,7 @@
 Antinote
 CleanMyMac
 CleanShot X
-Dash
-Paste
 PixelSnap
 Proxyman
-QuitAll
 TablePlus
-Vivid
+DisplayBuddy
