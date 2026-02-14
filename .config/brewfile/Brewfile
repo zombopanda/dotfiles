@@ -31,11 +31,12 @@ brew yazi
 brew yt-dlp
 brew zoxide
 brew bluesnooze
+brew btop
 
 tap homebrew/cask
-cask alt-tab
 cask chatgpt
 cask claude
+cask claude-code
 cask cursor
 cask daisydisk
 cask deepl
@@ -47,10 +48,9 @@ cask google-chrome
 cask iina
 cask iterm2
 cask jetbrains-toolbox
-cask jordanbaird-ice
+cask jordanbaird-ice@beta
 cask logi-options+
 cask macmediakeyforwarder
-cask nvidia-geforce-now
 cask obsidian
 cask plex
 cask qlmarkdown
@@ -63,6 +63,10 @@ cask syntax-highlight
 cask xcodes-app
 cask reader
 cask contexts
+cask appcleaner
+cask pxplay
+cask rustdesk
+cask codex
 
 tap rcmdnk/file
 brew brew-file
@@ -73,7 +77,6 @@ tap teamookla/speedtest
 brew speedtest
 
 # App Store applications
-appstore 937984704 Amphetamine (5.3.2)
 appstore 1206020918 Battery Indicator (2.19.0)
 appstore 1397180934 Dark Mode for Safari (3.6.1)
 appstore 1470584107 Dato (5.6.2)
