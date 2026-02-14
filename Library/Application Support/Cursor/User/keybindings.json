@@ -26,10 +26,6 @@
         "when": "editorTextFocus"
     },
     {
-        "key": "cmd+b",
-        "command": "editor.action.previewDeclaration"
-    },
-    {
         "key": "cmd+y",
         "command": "-editor.action.previewDeclaration"
     },
@@ -81,5 +77,37 @@
         "key": "alt+n",
         "command": "editor.action.inlineDiffs.rejectPartialEdit",
         "when": "editorTextFocus && inlineDiffs.activeEditorWithDiffs"
+    },
+    {
+        "key": "cmd+2",
+        "command": "-workbench.action.focusSecondEditorGroup"
+    },
+    {
+        "key": "cmd+2",
+        "command": "composer.startComposerPrompt",
+        "when": "cursor.appLayout != 'agent'"
+    },
+    {
+        "key": "cmd+3",
+        "command": "workbench.action.toggleZenMode",
+        "when": "!isAuxiliaryWindowFocusedContext"
+    },
+    {
+        "key": "cmd+p",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "cmd+p",
+        "command": "-workbench.action.quickOpenNavigateNextInFilePicker",
+        "when": "inFilesPicker && inQuickOpen"
+    },
+    {
+        "key": "cmd+p",
+        "command": "workbench.action.showCommands"
+    },
+    {
+        "key": "cmd+b",
+        "command": "editor.action.goToImplementation",
+        "when": "editorHasImplementationProvider && editorTextFocus && !isInEmbeddedEditor"
     }
 ]

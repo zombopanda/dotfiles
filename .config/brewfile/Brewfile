@@ -3,7 +3,8 @@
 
 tap homebrew/core
 brew asdf
-brew ccat
+brew bat
+brew gawk
 brew cmake
 brew dfc
 brew eza
@@ -14,7 +15,6 @@ brew fzf
 brew htop
 brew jq
 brew mackup
-brew mcfly
 brew midnight-commander
 brew ncdu
 brew neovim
@@ -30,6 +30,7 @@ brew yadm
 brew yazi
 brew yt-dlp
 brew zoxide
+brew bluesnooze
 
 tap homebrew/cask
 cask alt-tab
@@ -60,6 +61,8 @@ cask setapp
 cask spotify
 cask syntax-highlight
 cask xcodes-app
+cask reader
+cask contexts
 
 tap rcmdnk/file
 brew brew-file
@@ -84,7 +87,6 @@ appstore 1188020834 OverPicture (2.5)
 appstore 409201541 Pages (14.4)
 appstore 6714467650 Perplexity (2.250724.0)
 appstore 6738274497 Raycast Companion (1.1.1)
-appstore 1596283165 rcmd (2.7.0)
 appstore 1086818840 Rocket.Chat (4.7.1)
 appstore 747648890 Telegram (11.15)
 appstore 966085870 TickTick (6.3.40)

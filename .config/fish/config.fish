@@ -17,12 +17,27 @@ abbr -a pn pnpm
 abbr -a pi pnpm i
 alias vim nvim
 alias v nvim
-alias cat ccat
+alias ccat bat
+alias awk gawk
 zoxide init --cmd cd fish | source
-mcfly init fish | source
+#mcfly init fish | source
+
 alias vimfish "vim ~/.config/fish/config.fish && source ~/.config/fish/config.fish && echo '✨fish config reloaded ✨'"
 alias ip "curl -s ipinfo.io | jq -r '\"\(.ip) — \(.city), \(.country) — \(.org)\"'"
+alias hassio "ssh hassio@homeassistant.local"
+alias tower "ssh root@192.168.0.118"
+
 alias y yazi
+#alias l yazi
+
+alias ls='lsd'
+alias l='ls -l'
+alias ll='ls -l'
+alias la='ls -a'
+alias lla='ls -la'
+alias lt='ls --tree'
+
+
 # tools to see who's using the port
 function port
     if test (count $argv) -eq 0
@@ -47,3 +62,13 @@ function killport
 end
 
 thefuck --alias | source
+
+# pnpm
+set -gx PNPM_HOME "/Users/bo/Library/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end
+
+# Added by Antigravity
+fish_add_path /Users/bo/.antigravity/antigravity/bin
