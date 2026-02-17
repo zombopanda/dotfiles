@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
- "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
   <key>Label</key>
   <string>com.panda.watch-ice</string>
-
   <key>ProgramArguments</key>
   <array>
-    <string>/Users/bo/.asdf/shims/bun</string>
-    <string>/Users/bo/dev/tools/bun/scripts/watch-ice.js</string>
+    <string>/bin/bash</string>
+    <string>-c</string>
+    <string>while true; do if ! /usr/bin/pgrep -xq "Ice"; then /usr/bin/open -a "Ice"; echo "[watch-ice] $(date): Ice restarted"; fi; sleep 5; done</string>
   </array>
-
   <key>KeepAlive</key>
   <true/>
-
   <key>RunAtLoad</key>
   <true/>
+  <key>StandardOutPath</key>
+  <string>/tmp/watch-ice.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/watch-ice.log</string>
 </dict>
 </plist>
-

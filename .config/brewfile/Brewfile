@@ -3,6 +3,7 @@
 
 tap homebrew/core
 brew asdf
+brew lsd
 brew bat
 brew gawk
 brew cmake

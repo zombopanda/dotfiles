@@ -72,3 +72,8 @@ end
 
 # Added by Antigravity
 fish_add_path /Users/bo/.antigravity/antigravity/bin
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /Users/bo/.lmstudio/bin
+# End of LM Studio CLI section
+

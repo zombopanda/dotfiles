@@ -45,6 +45,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "workbench.colorTheme": "GitHub Light",
-  "workbench.statusBar.visible": false,
   "claudeCode.preferredLocation": "panel",
+  "window.commandCenter": true,
+  "workbench.statusBar.visible": false,
 }
