@@ -7,6 +7,9 @@ function fish_ai_bug_report
     print_header "Key bindings"
     print_key_bindings
 
+    print_header "Proxy settings"
+    print_proxy_settings
+
     print_header Dependencies
     print_dependencies
 
@@ -38,6 +41,18 @@ function print_header --argument-names title
     set_color normal
 end
 
+function print_proxy_settings
+    # https://www.python-httpx.org/environment_variables
+    set proxy_variables (string join '|' 'HTTP_PROXY' 'HTTPS_PROXY' 'ALL_PROXY' 'NO_PROXY')
+    if test (env | grep -qiE "$proxy_variables")
+        env | grep -iE "$proxy_variables"
+    else
+        echo "No proxy is configured."
+    end
+
+    echo ""
+end
+
 function print_environment
     if test -f /etc/os-release
         echo "Running on $(cat /etc/os-release | grep PRETTY | cut -d= -f2 | tr -d '\"')"
@@ -54,7 +69,7 @@ function print_environment
 end
 
 function print_key_bindings
-    bind --key | grep --color=never _fish_ai
+    bind | grep --color=never _fish_ai
     echo ""
     echo "Key bindings in use: $fish_key_bindings"
     echo ""

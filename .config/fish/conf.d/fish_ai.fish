@@ -2,7 +2,7 @@
 ## Supported major.minor versions of Python.
 ## Unit tests are run in CI against these versions.
 ##
-set -g _fish_ai_supported_versions 3.9 3.10 3.11 3.12 3.13
+set -g _fish_ai_supported_versions 3.10 3.11 3.12 3.13 3.14
 
 set -g _fish_ai_install_dir (test -z "$XDG_DATA_HOME"; and echo "$HOME/.local/share/fish-ai"; or echo "$XDG_DATA_HOME/fish-ai")
 set -g _fish_ai_config_path (test -z "$XDG_CONFIG_HOME"; and echo "$HOME/.config/fish-ai.ini"; or echo "$XDG_CONFIG_HOME/fish-ai.ini")
@@ -15,17 +15,21 @@ function _fish_ai_bind --description "Create keybindings for fish-ai."
     if test -n ("$_fish_ai_install_dir/bin/lookup_setting" keymap_1)
         "$_fish_ai_install_dir/bin/lookup_setting" keymap_1 | string unescape | read -g -a _fish_ai_keymap_1
     else
-        set -g _fish_ai_keymap_1 \cp
+        # prefer fish key names above fish 4.x
+        if string match -r '^[0-3]\.' "$FISH_VERSION" &>/dev/null
+            set -g _fish_ai_keymap_1 \cp
+        else
+            set -g _fish_ai_keymap_1 ctrl-p
+        end
     end
     if test -n ("$_fish_ai_install_dir/bin/lookup_setting" keymap_2)
         "$_fish_ai_install_dir/bin/lookup_setting" keymap_2 | string unescape | read -g -a _fish_ai_keymap_2
     else
-        if type -q sw_vers
-            # macOS
-            set -g _fish_ai_keymap_2 ctrl-space
-        else
-            # Linux
+        # prefer fish key names above fish 4.x
+        if string match -r '^[0-3]\.' "$FISH_VERSION" &>/dev/null
             set -g _fish_ai_keymap_2 -k nul
+        else
+            set -g _fish_ai_keymap_2 ctrl-space
         end
     end
     if test "$fish_key_bindings" = fish_vi_key_bindings
@@ -49,7 +53,7 @@ function _fish_ai_install --on-event fish_ai_install
     _fish_ai_set_python_version
     if type -q uv
         echo "🥡 Setting up a virtual environment using uv..."
-        uv venv --seed --python $_fish_ai_python_version "$_fish_ai_install_dir"
+        uv venv --quiet --seed --python $_fish_ai_python_version "$_fish_ai_install_dir"
     else
         echo "🥡 Setting up a virtual environment using venv..."
         python$_fish_ai_python_version -m venv "$_fish_ai_install_dir"
@@ -81,8 +85,10 @@ function _fish_ai_update --on-event fish_ai_update
         mv "$HOME/.fish-ai" "$_fish_ai_install_dir"
     end
     if test -f "$HOME/.config/fish-ai.ini"
-        echo "👷 Moving configuration file to '$_fish_ai_config_path'."
-        mv "$HOME/.config/fish-ai.ini" "$_fish_ai_config_path"
+        if test "$_fish_ai_config_path" != "$HOME/.config/fish-ai.ini"
+            echo "👷 Moving configuration file to '$_fish_ai_config_path'."
+            mv "$HOME/.config/fish-ai.ini" "$_fish_ai_config_path"
+        end
     end
     # Upgrade to fish-ai 2.0.0
     set -l provider ("$_fish_ai_install_dir/bin/lookup_setting" provider)
@@ -100,10 +106,17 @@ function _fish_ai_update --on-event fish_ai_update
         "$_fish_ai_install_dir/bin/put_setting" fish-ai keymap_2 (echo -n "$FISH_AI_KEYMAP_2" | string escape)
         set -e -Ug FISH_AI_KEYMAP_2
     end
+    # Upgrade to fish-ai 2.8.0
+    if test -f "$_fish_ai_config_path"
+        if grep -q '^temperature\s*=' "$_fish_ai_config_path"
+            sed -i '/^temperature\s*=/d' "$_fish_ai_config_path"
+            echo "🌇 The 'temperature' parameter is no longer supported and has been removed from your configuration."
+        end
+    end
 
     _fish_ai_set_python_version
     if type -q uv
-        uv venv --seed --python $_fish_ai_python_version "$_fish_ai_install_dir"
+        uv venv --quiet --clear --seed --python $_fish_ai_python_version "$_fish_ai_install_dir"
     else
         python$_fish_ai_python_version -m venv --upgrade "$_fish_ai_install_dir"
     end

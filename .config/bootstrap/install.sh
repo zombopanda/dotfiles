@@ -11,7 +11,7 @@ no_color="\033[0m"
 
 # Homebrew
 ## Install
-if [ "$(which brew)" != "/usr/local/bin/brew" ] && [ "$(which brew)" != "/opt/homebrew/bin/brew" ]; then
+if ! command -v brew >/dev/null 2>&1; then
     echo -e "${green}Installing Brew...${no_color}"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
@@ -27,18 +27,13 @@ brew file install
 # load asdf
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-echo 1
-
 SCRIPT_DIR=$(dirname "$0")
 
 # Set macOS defaults
-# . "${SCRIPT_DIR}/macos-defaults.sh"
-echo 2
-
+. "${SCRIPT_DIR}/macos-defaults.sh"
 
 # Set the order of apps in the Dock
-# . "${SCRIPT_DIR}/dock.sh"
-echo 3
+. "${SCRIPT_DIR}/dock.sh"
 
 ## Install asdf
 asdf plugin add bun https://github.com/cometkim/asdf-bun.git
@@ -54,9 +49,8 @@ read -n 1 -s
 echo "Thanks, moving on."
 
 # Create a tmp directory
-TMPDIR="$(mktemp -d)"; trap 'rm -rf "$TMPDIR"' EXIT
-mkdir -p "$TMPDIR"
-cd "$TMPDIR"
+_tmpdir="$(mktemp -d)"; trap 'rm -rf "$_tmpdir"' EXIT
+cd "$_tmpdir"
 
 # Install setapp-cli
 git clone https://github.com/leonsilicon/setapp-cli.git
@@ -75,6 +69,9 @@ while IFS= read -r app; do
 done < "$HOME/.config/bootstrap/setapp.txt"
 
 cd ~
+
+# Install Claude Code
+curl -fsSL https://claude.ai/install.sh | bash
 
 # Restore mackup
 mackup restore || true

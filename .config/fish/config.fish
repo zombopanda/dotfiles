@@ -1,41 +1,69 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    # sesh — tmux session picker (Ctrl+T from shell)
+    function _sesh_connect
+        set session (
+            sesh list --icons | fzf --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+                --header '  ^a all  ^t tmux  ^g configs  ^x zoxide  ^d kill  ^f find' \
+                --bind 'tab:down,btab:up' \
+                --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+                --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+                --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+                --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+                --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+                --bind 'ctrl-d:execute(tmux kill-session -t {2..})+reload(sesh list --icons)' \
+                --preview 'sesh preview {}'
+        )
+        if test -n "$session"
+            sesh connect $session
+        end
+        commandline -f repaint
+    end
+    bind \ct _sesh_connect
 end
 
-set -U ANDROID_HOME $HOME/Library/Android/sdk
+set -gx CLAUDE_CODE_DISABLE_AUTO_MEMORY 0
 
+set -gx ANDROID_HOME $HOME/Library/Android/sdk
 
 #fish_add_path $ANDROID_HOME/tools $ANDROID_HOME/tools/bin $ANDROID_HOME/platform-tools $ANDROID_HOME/emulator
 fish_add_path /opt/homebrew/bin /opt/homebrew/sbin
 source /opt/homebrew/opt/asdf/libexec/asdf.fish
 fish_add_path "/Users/bo/Library/Application Support/JetBrains/Toolbox/scripts"
-fish_add_path ./node_modules/.bin
+
 
 abbr -a fd "fd -H"
-abbr -a pa pnpm add $argv
+abbr -a pa "pnpm add"
 abbr -a pn pnpm
-abbr -a pi pnpm i
+abbr -a pi "pnpm i"
 alias vim nvim
 alias v nvim
 alias ccat bat
 alias awk gawk
-zoxide init --cmd cd fish | source
-#mcfly init fish | source
 
-alias vimfish "vim ~/.config/fish/config.fish && source ~/.config/fish/config.fish && echo '✨fish config reloaded ✨'"
+function a
+    if test (count $argv) -eq 0
+        command agent-deck
+    else
+        command agent-deck session attach $argv[1]
+    end
+end
+
+zoxide init --cmd cd fish | source
+
+alias vimfish "vim ~/.config/fish/config.fish; source ~/.config/fish/config.fish; echo '✨fish config reloaded ✨'"
+alias vimbrew "vim ~/.config/brewfile/Brewfile"
 alias ip "curl -s ipinfo.io | jq -r '\"\(.ip) — \(.city), \(.country) — \(.org)\"'"
 alias hassio "ssh hassio@homeassistant.local"
 alias tower "ssh root@192.168.0.118"
 
 alias y yazi
-#alias l yazi
 
-alias ls='lsd'
-alias l='ls -l'
-alias ll='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
-alias lt='ls --tree'
+alias ls lsd
+alias l 'ls -l'
+alias ll 'ls -l'
+alias la 'ls -a'
+alias lla 'ls -la'
+alias lt 'ls --tree'
 
 
 # tools to see who's using the port
@@ -77,3 +105,6 @@ fish_add_path /Users/bo/.antigravity/antigravity/bin
 set -gx PATH $PATH /Users/bo/.lmstudio/bin
 # End of LM Studio CLI section
 
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init2.fish 2>/dev/null || :
