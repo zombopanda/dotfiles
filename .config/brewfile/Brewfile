@@ -2,7 +2,7 @@
 # tap repositories and their packages
 
 tap homebrew/core
-brew asdf
+brew mise
 brew bat
 brew clipboard
 brew cmake

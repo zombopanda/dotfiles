@@ -24,8 +24,9 @@ yadm clone https://github.com/zombopanda/dotfiles.git
 export HOMEBREW_BREWFILE_CURSOR=1
 brew file install
 
-# load asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+# Activate mise and install tool versions from .tool-versions
+eval "$(mise activate bash)"
+mise install
 
 SCRIPT_DIR=$(dirname "$0")
 
@@ -34,15 +35,6 @@ SCRIPT_DIR=$(dirname "$0")
 
 # Set the order of apps in the Dock
 . "${SCRIPT_DIR}/dock.sh"
-
-## Install asdf
-asdf plugin add bun https://github.com/cometkim/asdf-bun.git
-asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
-asdf plugin add python https://github.com/asdf-community/asdf-python.git
-# for ruby
-brew install libyaml
-asdf install
 
 echo "Please open SetApp and log in..."
 read -n 1 -s
@@ -58,7 +50,7 @@ cd setapp-cli
 
 # Ensure bun exists
 if ! command -v bun >/dev/null 2>&1; then
-  asdf install bun latest && asdf global bun latest
+  mise use --global bun@latest
 fi
 bun install
 

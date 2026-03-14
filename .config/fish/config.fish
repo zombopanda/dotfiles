@@ -27,7 +27,7 @@ set -gx ANDROID_HOME $HOME/Library/Android/sdk
 
 #fish_add_path $ANDROID_HOME/tools $ANDROID_HOME/tools/bin $ANDROID_HOME/platform-tools $ANDROID_HOME/emulator
 fish_add_path /opt/homebrew/bin /opt/homebrew/sbin
-source /opt/homebrew/opt/asdf/libexec/asdf.fish
+mise activate fish | source
 fish_add_path "/Users/bo/Library/Application Support/JetBrains/Toolbox/scripts"
 
 
@@ -162,6 +162,7 @@ end
 
 # Added by Antigravity
 fish_add_path /Users/bo/.antigravity/antigravity/bin
+
 
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /Users/bo/.lmstudio/bin
