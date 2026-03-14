@@ -1,5 +1,4 @@
-eval "$(mise activate bash)"
-eval "$(mise hook-env -s bash)"
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 
 
