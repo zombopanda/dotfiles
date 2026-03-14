@@ -91,6 +91,68 @@ end
 
 thefuck --alias | source
 
+# safe_api_call — wraps curl with automatic GET-backup-then-execute logic
+# Usage: safe_api_call METHOD URL [CURL_ARGS...]
+# Example: safe_api_call PUT https://api.example.com/resource -d '{"key":"value"}'
+# Example: safe_api_call DELETE https://api.example.com/resource/123
+function safe_api_call
+    if test (count $argv) -lt 2
+        echo "Usage: safe_api_call METHOD URL [CURL_ARGS...]"
+        echo "  METHOD: GET, PUT, POST, PATCH, DELETE"
+        echo "  Automatically backs up current state before mutating calls."
+        return 1
+    end
+
+    set method (string upper $argv[1])
+    set url $argv[2]
+    set extra_args $argv[3..]
+    set timestamp (date +%Y%m%d-%H%M%S)
+    set backup_file "/tmp/backup-$timestamp.json"
+
+    # For safe methods, just execute directly
+    if test "$method" = "GET" -o "$method" = "HEAD" -o "$method" = "OPTIONS"
+        curl -s -X $method $url $extra_args
+        return $status
+    end
+
+    # For mutating methods: backup first
+    echo "→ Backing up current state: GET $url"
+    set get_status (curl -s -w "\n%{http_code}" -o "$backup_file" "$url" 2>&1; echo $status)
+
+    if test -f "$backup_file" -a -s "$backup_file"
+        echo "  ✓ Saved to $backup_file"
+        echo "  Preview (first 20 lines):"
+        head -20 "$backup_file" | sed 's/^/    /'
+        if test (wc -l < "$backup_file") -gt 20
+            echo "    ... (truncated)"
+        end
+    else
+        echo "  ⚠ Warning: GET returned empty response or failed"
+        echo "  Backup file: $backup_file"
+    end
+
+    echo ""
+    echo "→ Executing: $method $url"
+    read -P "  Proceed? [y/N] " confirm
+    if test "$confirm" != "y" -a "$confirm" != "Y"
+        echo "  ✗ Aborted. Backup remains at $backup_file"
+        return 1
+    end
+
+    curl -s -X $method $url $extra_args
+    set curl_status $status
+
+    if test $curl_status -eq 0
+        echo ""
+        echo "  ✓ Done. Backup: $backup_file (restore with: curl -X PUT '$url' -d @$backup_file -H 'Content-Type: application/json')"
+    else
+        echo ""
+        echo "  ✗ curl failed (exit $curl_status). Backup: $backup_file"
+    end
+
+    return $curl_status
+end
+
 # pnpm
 set -gx PNPM_HOME "/Users/bo/Library/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
